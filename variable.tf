@@ -19,3 +19,15 @@ variable "vpc_cidr" {
   type        = string
   default = "10.0.0.0/16"
 }
+
+variable "vpc_tags" {
+    description = "Additional tags to apply to the VPC."
+    type        = map(string)
+    default     = {}
+  
+}
+variable "igw_tags" {
+    type = map(string)
+    default = {}
+  
+}
