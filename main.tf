@@ -5,3 +5,4 @@ resource "aws_vpc" "main" {
   
 
   tags = local.vpc_final_tags
+}
