@@ -1,12 +1,3 @@
-locals {
-  vpc_final_tags = {
-    Name = "main-vpc"
-  }
-  igw_final_tags = {
-    Name = "main-igw"
-  }
-}
-
 resource "aws_vpc" "main" {
   cidr_block       = var.vpc_cidr
   instance_tenancy = "default"
