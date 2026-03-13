@@ -193,3 +193,4 @@ resource "aws_route_table_association" "database" {        #Step-11: Associate t
   subnet_id      = aws_subnet.database[count.index].id # We are associating the
   route_table_id = aws_route_table.database.id
 }
+

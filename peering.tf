@@ -27,3 +27,33 @@ resource "aws_vpc_peering_connection" "default" {
     }
   )
 }
+
+# Create a public route for the peering connection in the public route table
+resource "aws_route" "public-peering" {
+  count = var.is_peering_required ? 1 : 0 # Conditionally create the route based on the variable here 1 means create 0 means do not create
+  route_table_id            = aws_route_table.public.id
+  destination_cidr_block    = data.aws_vpc.default.cidr_block # The CIDR block of the peer VPC. This should match the CIDR block of the VPC you are peering with. 
+  vpc_peering_connection_id = aws_vpc_peering_connection.default[count.index].id # The ID of the peering connection created above. Since we are conditionally creating the peering connection, we need to reference it as an element in a list.
+}
+
+resource "aws_route" "private-peering" {
+  count = var.is_peering_required ? 1 : 0 # Conditionally create the route based on the variable here 1 means create 0 means do not create
+  route_table_id            = aws_route_table.private.id
+  destination_cidr_block    = data.aws_vpc.default.cidr_block # The CIDR block of the peer VPC. This should match the CIDR block of the VPC you are peering with. 
+  vpc_peering_connection_id = aws_vpc_peering_connection.default[count.index].id # The ID of the peering connection created above. Since we are conditionally creating the peering connection, we need to reference it as an element in a list.
+}
+
+resource "aws_route" "database-peering" {
+  count = var.is_peering_required ? 1 : 0 # Conditionally create the route based on the variable here 1 means create 0 means do not create
+  route_table_id            = aws_route_table.database.id
+  destination_cidr_block    = data.aws_vpc.default.cidr_block # The CIDR block of the peer VPC. This should match the CIDR block of the VPC you are peering with. 
+  vpc_peering_connection_id = aws_vpc_peering_connection.default[count.index].id # The ID of the peering connection created above. Since we are conditionally creating the peering connection, we need to reference it as an element in a list.
+}
+
+# Create a private route for the peering connection in the private route table
+resource "aws_route" "default-peering" {
+  count = var.is_peering_required ? 1 : 0 # Conditionally create the route based on the variable here 1 means create 0 means do not create
+  route_table_id            = data.aws_route_table.default.id
+  destination_cidr_block    = var.vpc_cidr # The CIDR block of the peer VPC. This should match the CIDR block of the VPC you are peering with. 
+  vpc_peering_connection_id = aws_vpc_peering_connection.default[count.index].id # The ID of the peering connection created above. Since we are conditionally creating the peering connection, we need to reference it as an element in a list.
+}
