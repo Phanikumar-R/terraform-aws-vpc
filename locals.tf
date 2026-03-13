@@ -19,4 +19,6 @@ locals {
 
   az_names = slice(data.aws_availability_zones.available.names, 0, 2) # here 0 is inclusive and 2 is exclusive so it will give us 2 azs
 
+  
+
 }
