@@ -108,3 +108,10 @@ variable "nat_gateway_tags" {
     default     = {}
   
 }
+
+
+variable "is_peering_required" {
+    description = "Indicates whether VPC peering is required."
+    type        = bool
+    default     = false
+}
