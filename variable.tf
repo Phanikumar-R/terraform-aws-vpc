@@ -94,3 +94,17 @@ variable "database_route_table_tags" {
     default     = {}
   
 }
+
+variable "eip_tags" {
+    description = "Additional tags to apply to the NAT Gateway Elastic IP."
+    type        = map(string)
+    default     = {}    
+  
+}
+
+variable "nat_gateway_tags" {
+    description = "Additional tags to apply to the NAT Gateway."
+    type        = map(string)
+    default     = {}
+  
+}
