@@ -173,3 +173,23 @@ resource "aws_route" "database"{
   nat_gateway_id = aws_nat_gateway.main.id
 }
 
+# Associate the public subnet with the public route table
+resource "aws_route_table_association" "public" {        #Step-11: Associate the public subnet with the public route table
+  count = length(var.public_subnet_cidrs)
+  subnet_id      = aws_subnet.public[count.index].id # We are associating the
+  route_table_id = aws_route_table.public.id
+}
+
+# Associate the private subnet with the private route table
+resource "aws_route_table_association" "private" {        #Step-11: Associate the public subnet with the public route table
+  count = length(var.private_subnet_cidrs)
+  subnet_id      = aws_subnet.private[count.index].id # We are associating the
+  route_table_id = aws_route_table.private.id
+}
+
+# Associate the database subnet with the database route table
+resource "aws_route_table_association" "database" {        #Step-11: Associate the public subnet with the public route table
+  count = length(var.database_subnet_cidrs)
+  subnet_id      = aws_subnet.database[count.index].id # We are associating the
+  route_table_id = aws_route_table.database.id
+}
